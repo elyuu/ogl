@@ -6,16 +6,16 @@ set(NAME ogl)
 
 project(${NAME} VERSION 0.0.1 LANGUAGES C)
 
-add_executable(ogl src/ogl.c)
+add_executable(ogl src/ogl.c external/glad/src/gl.c)
 
 target_compile_features(${NAME} PUBLIC c_std_11)
 target_compile_options(${NAME} PUBLIC -Wextra -Wall -Wshadow -Wno-missing-braces -Wmissing-field-initializers -fdiagnostics-color=always)
 
 find_package(SDL2 REQUIRED)
 
-target_include_directories(${NAME} PUBLIC src/)
+target_include_directories(${NAME} PUBLIC src/ external/glad/include)
 
-target_link_libraries(${NAME} PRIVATE SDL2)
+target_link_libraries(${NAME} PRIVATE SDL2 dl)
 
 # Require out-of-source builds
 file(TO_CMAKE_PATH "${PROJECT_BINARY_DIR}/CMakeLists.txt" LOC_PATH)
