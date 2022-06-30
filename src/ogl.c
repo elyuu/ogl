@@ -3,6 +3,7 @@
 ogl::ogl.c
 ===========================================================================
 */
+#define GLAD_GL_IMPLEMENTATION
 #include <glad/gl.h>
 
 #include <SDL2/SDL.h>
@@ -10,7 +11,13 @@ ogl::ogl.c
 
 #include <stdbool.h>
 
-int main(void)
+#include "core_types.h"
+#include "log.h"
+
+#define WINDOW_WIDTH 800
+#define WINDOW_HEIGHT 600
+
+int main(int argc, char** argv)
 {
     SDL_Init(SDL_INIT_VIDEO);
 
@@ -23,14 +30,26 @@ int main(void)
         "ogl",
         SDL_WINDOWPOS_UNDEFINED,
         SDL_WINDOWPOS_UNDEFINED,
-        800,
-        600,
+        WINDOW_WIDTH,
+        WINDOW_HEIGHT,
         SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
 
-    SDL_GLContext context = SDL_GL_CreateContext(window);
+    if (!window)
+    {
+        log_fatal("Error creating window: %s", SDL_GetError());
+        SDL_Quit();
+        return 1;
+    }
 
-    int version = gladLoadGL((GLADloadfunc) SDL_GL_GetProcAddress);
-    printf("GL %d.%d\n", GLAD_VERSION_MAJOR(version), GLAD_VERSION_MINOR(version));
+    SDL_GLContext context = SDL_GL_CreateContext(window);
+    
+    if (!gladLoadGL((GLADloadfunc)SDL_GL_GetProcAddress))
+    {
+        log_fatal("Failed to init OpenGL context");
+        return 1;
+    };
+
+    glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
     SDL_Event event;
     bool quit = false;
