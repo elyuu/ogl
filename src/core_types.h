@@ -6,8 +6,8 @@
 
 typedef enum ogl_result
 {
-    ogl_OK,
-    ogl_ERR,
+    OGL_OK,
+    OGL_ERR,
 } ogl_result;
 
 // static string slice only
@@ -18,9 +18,9 @@ typedef struct ogl_str_t
 } ogl_str_t;
 
 // math types
-typedef union ogl_v2f_t
+typedef union ogl_vec2f_t
 {
-    float v2f[2];
+    float vec2f[2];
     struct
     {
         float x, y;
@@ -33,11 +33,11 @@ typedef union ogl_v2f_t
     {
         float r, g;
     };
-} ogl_v2f_t;
+} ogl_vec2f_t;
 
-typedef union ogl_v3f_t
+typedef union ogl_vec3f_t
 {
-    float v3f[3];
+    float vec3f[3];
     struct
     {
         float x, y, z;
@@ -50,11 +50,11 @@ typedef union ogl_v3f_t
     {
         float r, g, b;
     };
-} ogl_v3f_t;
+} ogl_vec3f_t;
 
-typedef union ogl_v4f_t
+typedef union ogl_vec4f_t
 {
-    float v4f[4];
+    float vec4f[4];
     struct
     {
         float x, y, z, w;
@@ -63,12 +63,14 @@ typedef union ogl_v4f_t
     {
         float r, g, b, a;
     };
-} ogl_v4f_t;
+} ogl_vec4f_t;
 
 typedef union ogl_mat4f_t
 {
+    ogl_vec4f_t vec4f[4];
+#if 0
+    float blob[16];
     float mat4f[4][4];
-    ogl_v4f_t v4f[4];
     struct
     {
         float xx, xy, xz, xw;
@@ -76,4 +78,5 @@ typedef union ogl_mat4f_t
         float zx, zy, zz, zw;
         float wx, wy, wz, ww;
     };
+#endif
 } ogl_mat4f_t;
